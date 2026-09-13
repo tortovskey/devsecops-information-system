@@ -1,0 +1,39 @@
+name: devsecops_site_fixed
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U devsecops_user -d devsecops_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - devsecops_network
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - devsecops_network
+
+volumes:
+  postgres_data:
+
+networks:
+  devsecops_network:
+    driver: bridge

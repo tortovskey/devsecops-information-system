@@ -1,0 +1,15 @@
+.venv
+venv
+.git
+__pycache__
+*.pyc
+.pytest_cache
+.mypy_cache
+.ruff_cache
+htmlcov
+coverage.xml
+db.sqlite3
+*.sqlite3
+security.log
+bandit-report.json
+pip-audit-report.json

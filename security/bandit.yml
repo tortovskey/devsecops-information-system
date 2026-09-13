@@ -1,0 +1,9 @@
+exclude_dirs:
+  - tests
+  - migrations
+  - .venv
+  - venv
+skips:
+  - B101
+severity: medium
+confidence: medium

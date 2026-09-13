@@ -1,0 +1,50 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>DevSecOps Information System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
+</head>
+<body>
+    <main class="page">
+        <section class="hero">
+            <p class="badge">DevSecOps / Django / Docker</p>
+            <h1>Информационная система с DevSecOps-практиками</h1>
+            <p class="subtitle">
+                Демонстрационный проект для безопасной разработки, автоматизированного анализа,
+                контейнеризации и эксплуатации информационной системы.
+            </p>
+            <div class="actions">
+                <a href="/health/" class="button">Health-check</a>
+                <a href="/admin/" class="button secondary">Admin panel</a>
+            </div>
+        </section>
+
+        <section class="grid">
+            {% for check in checks %}
+                <article class="card">
+                    <div class="card-header">
+                        <h2>{{ check.name }}</h2>
+                        <span>{{ check.status }}</span>
+                    </div>
+                    <p>{{ check.description }}</p>
+                </article>
+            {% endfor %}
+        </section>
+
+        <section class="info">
+            <h2>Жизненный цикл DevSecOps</h2>
+            <ol>
+                <li>Разработка и контроль качества кода.</li>
+                <li>Статический анализ безопасности.</li>
+                <li>Проверка зависимостей.</li>
+                <li>Сканирование контейнеров.</li>
+                <li>Динамическое тестирование работающего приложения.</li>
+                <li>Журналирование событий безопасности.</li>
+            </ol>
+        </section>
+    </main>
+</body>
+</html>
