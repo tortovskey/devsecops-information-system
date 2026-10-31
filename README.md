@@ -1,90 +1,71 @@
 # DevSecOps Information System
 
-Учебный проект для темы:
+An educational Django and PostgreSQL project demonstrating security practices
+throughout the design, development, and operation of an information system.
 
-**«Внедрение DevSecOps-практик в жизненный цикл проектирования и эксплуатации информационной системы»**
+The application runs through Docker Compose on Windows. Python runs inside the
+container, so a local Python installation is not required.
 
-Проект запускается через Docker Compose на Windows. Локальный `python` не нужен.
-Если на Windows установлен только `py`, это нормально: Docker использует Python внутри контейнера.
+## Quick start
 
-## Быстрый запуск
-
-1. Клонируй репозиторий и открой папку проекта.
-2. Создай локальный `.env` из примера и замени пароли:
+1. Clone the repository and open the project directory.
+2. Create a local `.env` file from the example and replace the passwords:
 
 ```bash
 cp .env.example .env
 ```
 
-На Windows: `copy .env.example .env`.
+On Windows, use `copy .env.example .env`.
 
-3. Запусти:
+3. Start the application:
 
 ```bat
 start-docker.bat
 ```
 
-Или вручную:
+Or use Docker Compose directly:
 
 ```bash
 docker compose up --build
 ```
 
-Сайт:
+| Endpoint | Address |
+|---|---|
+| Application | http://localhost:8000/ |
+| Health check | http://localhost:8000/health/ |
+| Admin interface | http://localhost:8000/admin/ |
 
-```text
-http://localhost:8000/
-```
+A demo administrator is created at startup only when `DJANGO_SUPERUSER_PASSWORD`
+is set in `.env`. Account credentials are not stored in the repository.
 
-Health-check:
+## Resolve an old container-name conflict
 
-```text
-http://localhost:8000/health/
-```
-
-Админка:
-
-```text
-http://localhost:8000/admin/
-```
-
-Демо-администратор создаётся при старте только если в `.env` задан `DJANGO_SUPERUSER_PASSWORD`. Логин и пароль не хранятся в репозитории.
-
-## Если Docker пишет conflict про devsecops_db
-
-В этой версии конфликта уже быть не должно, потому что из `docker-compose.yml` убраны жёсткие `container_name`.
-Но если старый контейнер остался от прошлой версии, запусти:
+Explicit `container_name` values have been removed from `docker-compose.yml`.
+If a `devsecops_db` container from an older version still causes a conflict, run:
 
 ```bat
 clean-old-containers.bat
-```
-
-И потом снова:
-
-```bat
 start-docker.bat
 ```
 
-## Остановка
+## Stop the application
 
 ```bash
 docker compose down
 ```
 
-Полная очистка базы:
+To remove volumes and reset the database as well:
 
 ```bash
 docker compose down -v --remove-orphans
 ```
 
-## Что реализовано
+## Included features
 
-- Django веб-приложение.
-- PostgreSQL в Docker.
-- Автоматические миграции при запуске.
-- Автоматическое создание demo-admin.
-- Health-check endpoint.
-- Security middleware.
-- Безопасные настройки Django.
-- DevSecOps pipeline для GitHub Actions.
-- Bandit, pip-audit, Gitleaks, Trivy, OWASP ZAP.
+- A Django web application with PostgreSQL in Docker.
+- Automatic database migrations at startup.
+- Optional demo administrator creation.
+- A health-check endpoint.
+- Security middleware and security-oriented Django settings.
+- A GitHub Actions DevSecOps pipeline.
+- Bandit, pip-audit, Gitleaks, Trivy, and OWASP ZAP checks.
