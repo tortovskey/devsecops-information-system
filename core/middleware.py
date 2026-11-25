@@ -1,6 +1,7 @@
 import logging
 import time
 from collections.abc import Callable
+
 from django.http import HttpRequest, HttpResponse
 
 security_logger = logging.getLogger("security")
