@@ -6,17 +6,25 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends curl \
+    && apt-get install -y --no-install-recommends curl libzstd1 \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt /app/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir -r /app/requirements.txt
+    && pip install --no-cache-dir -r /app/requirements.txt \
+    && python -m pip check \
+    && python -m pip uninstall --yes pip \
+    && rm -rf /usr/local/lib/python3.12/ensurepip
 
 COPY . /app
 
-RUN chmod +x /app/entrypoint.sh
+RUN useradd --system --user-group --create-home app \
+    && chmod +x /app/entrypoint.sh \
+    && chgrp app /app \
+    && chmod 1775 /app
+
+USER app
 
 EXPOSE 8000
 
